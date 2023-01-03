@@ -40,10 +40,16 @@ body {
 .numbersGrid {
     display: flex;
     flex-wrap: wrap;
-    max-width: 220px;
+    max-width: 250px;
 }
-.numbersGrid #zero, #one, #two, #three, #four, #five, #six, #seven, #eight, #nine { 
+.numbersGrid #zero, #one, #two, #three, #four, #five, #six, #seven, #eight, #nine, #point, #plusMinus { 
     font-size: 90px;
+    width: 80px;
+    height: 100px;
+}
+
+.numbersGrid #plusMinus {
+    font-size: 45px;
 }
 
 .operators {

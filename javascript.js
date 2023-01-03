@@ -23,6 +23,8 @@ numbers.forEach(number => {
 });
 
 const clears = document.querySelector("#clear")
+const dp = document.querySelector("#point")
+const plusMinus = document.querySelector("#plusMinus")
 const operators = document.querySelectorAll("#add, #subtract, #multiply, #divide")
 const equals = document.querySelector("#equals")
 
@@ -73,7 +75,14 @@ equals.addEventListener('click', () => {
     }
     currentValue.innerHTML = Math.round(iterate() * 10000) / 10000;
 })
-    
+
+dp.addEventListener('click', () => { /// add disable after 1 click to this
+    return (currentValue.innerHTML = currentValue.innerHTML + ".");
+})
+plusMinus.addEventListener('click', () => {  /// NOT CURRENTLY WORKING, REQUIRES DEBUGGING
+    console.log(-currentValue.innerHTML);
+    return (currentValue.innerHTML = (currentValue.innerHTML * -1));
+})
 clears.addEventListener('click', () => {
     sequence.length = 0;
     return currentValue.innerHTML = ""
