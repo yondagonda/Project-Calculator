@@ -1,20 +1,18 @@
-const add = (a, b) => a + b;
+const add = (num1, num2) => num1 + num2;
+const subtract = (num1, num2) => num1 - num2;
+const multiply = (num1, num2) => num1 * num2;
+const divide = (num1, num2) => num1 / num2;
 
-const subtract = (a, b) => a - b;
-
-const multiply = (a, b) => a * b;
-
-const divide = (a, b) => a / b;
-
-function operate(operator, a, b) {
-    if (operator === "add") return add(a, b);  
-    else if (operator === "subtract") return subtract(a, b);
-    else if (operator === "multiply") return multiply(a, b);
-    else if (operator === "divide") return divide(a, b);
+function operate(operator, num1, num2) {
+    if (operator === "add") return add(num1, num2);  
+    else if (operator === "subtract") return subtract(num1, num2);
+    else if (operator === "multiply") return multiply(num1, num2);
+    else if (operator === "divide") return divide(num1, num2);
 }
 
 const numbers = document.querySelectorAll("#zero, #one, #two, #three, #four, #five, #six, #seven, #eight, #nine");
 const currentValue = document.getElementById("display")
+const sequence = [];
 
 numbers.forEach(number => {
     number.addEventListener('click', (e) => {
@@ -30,25 +28,53 @@ const equals = document.querySelector("#equals")
 
 operators.forEach(operator => {
     operator.addEventListener('click', (e) => {
-        a = displayValue;
-
+        num1 = displayValue;
         currentValue.innerHTML = "";
         chosenOperation = e.target.id;
-        console.log(chosenOperation);
-  
+        sequence.push(displayValue)
+        sequence.push(chosenOperation)
+        console.log(sequence)
     })
 });
-
 equals.addEventListener('click', () => {
-    b = displayValue
+    num2 = displayValue
+    sequence.push(num2);
+    console.log(sequence)
 
-    console.log(operate(chosenOperation, a, b));
-    currentValue.innerHTML = Math.round(operate(chosenOperation, a, b) * 10000) / 10000; // ensures answers get rounded to max 4dp
+    function iterate() {
+        console.log(sequence.length); 
+        let num1 = sequence[0]
+        let num2 = sequence[2]
+        let chosenOperation = sequence[1]
 
-    if (b === 0 && chosenOperation === "divide") { // this conditional statement prevents division by 0
+        ans = operate(chosenOperation, num1, num2); 
+        chainedAns = operate(sequence[3], ans, sequence[4])
+
+        if (sequence.length === 3) {
+            ans = operate(chosenOperation, num1, num2);  
+            console.log(ans)
+            return ans;   
+        } 
+        else if (sequence.length === 5) {
+            chainedAns = operate(sequence[3], ans, sequence[4])
+            console.log(chainedAns);
+            return chainedAns
+        }
+        else if (sequence.length === 7) {
+            chainedAns2 = operate(sequence[5], chainedAns, sequence[6])
+            console.log(chainedAns2);
+            return chainedAns2
+        }
+    };
+
+    if (num2 === 0 && chosenOperation === "divide") { 
         currentValue.innerHTML = " ";
         return alert("nice try buddy");
     }
+    currentValue.innerHTML = Math.round(iterate() * 10000) / 10000;
 })
-
-clears.addEventListener('click', () => currentValue.innerHTML = "");
+    
+clears.addEventListener('click', () => {
+    sequence.length = 0;
+    return currentValue.innerHTML = ""
+});
